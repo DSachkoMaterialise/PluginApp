@@ -23,7 +23,11 @@ int main(int argc, char** args)
 	{
 	try
 		{
-		auto plugs = getPlugins("..\\Debug\\plugins");										//Как сделать так, чтобы при запуске проекта с Visual Studio, он запускался относительно папки Debug, а не PluginApp???
+		string plugPath = args[0];
+		plugPath.erase(plugPath.find_last_of('\\') + 1);
+		plugPath += "plugins";
+		auto plugs = getPlugins(plugPath);
+
 		vector<shared_ptr<Editor>> editors = {make_shared<Editor>()};
 		for (const auto& plug : plugs)
 			editors.emplace_back(plug.getFunc<Editor* ()>("getEditor")());  //taking function and calling it
